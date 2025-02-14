@@ -441,6 +441,8 @@ func (c *wsConnection) subscribe(start time.Time, msg *message) {
 			cancel()
 		}()
 
+		fmt.Println("[GQLGEN] Dispatching operation")
+
 		responses, ctx := c.exec.DispatchOperation(ctx, rc)
 		for {
 			response := responses(ctx)
@@ -448,6 +450,7 @@ func (c *wsConnection) subscribe(start time.Time, msg *message) {
 				break
 			}
 
+			fmt.Println("[GQLGEN] Response:", response)
 			c.sendResponse(msg.id, response)
 		}
 
@@ -474,6 +477,7 @@ func (c *wsConnection) complete(id string) {
 func (c *wsConnection) sendError(id string, errors ...*gqlerror.Error) {
 	errs := make([]error, len(errors))
 	for i, err := range errors {
+		fmt.Println("[GQLGEN] Sending error: ", err.Message)
 		errs[i] = err
 	}
 	b, err := json.Marshal(errs)
@@ -484,7 +488,9 @@ func (c *wsConnection) sendError(id string, errors ...*gqlerror.Error) {
 }
 
 func (c *wsConnection) sendConnectionError(format string, args ...any) {
-	b, err := json.Marshal(&gqlerror.Error{Message: fmt.Sprintf(format, args...)})
+	gqlErr := &gqlerror.Error{Message: fmt.Sprintf(format, args...)}
+	fmt.Println("[GQLGEN] Sending connection error: ", gqlErr.Message)
+	b, err := json.Marshal(gqlErr)
 	if err != nil {
 		panic(err)
 	}
