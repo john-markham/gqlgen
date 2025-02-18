@@ -172,6 +172,7 @@ func (c *wsConnection) init() bool {
 	}
 
 	if err != nil {
+		fmt.Println("[GQLGEN] Error in init websocket connection: ", err)
 		if err == errReadTimeout {
 			c.close(websocket.CloseProtocolError, "connection initialisation timeout")
 			return false
@@ -450,7 +451,7 @@ func (c *wsConnection) subscribe(start time.Time, msg *message) {
 				break
 			}
 
-			fmt.Println("[GQLGEN] Response:", response)
+			fmt.Println("[GQLGEN] Response:", response, "for id:", msg.id)
 			c.sendResponse(msg.id, response)
 		}
 
@@ -504,6 +505,7 @@ func (c *wsConnection) close(closeCode int, message string) {
 		c.mu.Unlock()
 		return
 	}
+	fmt.Println("[GQLGEN] Closing connection, close code:", closeCode, "message:", message)
 	_ = c.conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(closeCode, message))
 	for _, closer := range c.active {
 		closer()
