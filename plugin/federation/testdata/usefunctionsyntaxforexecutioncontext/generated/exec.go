@@ -8005,7 +8005,9 @@ func marshalNInt2int(ctx context.Context, ec *executionContext, sel ast.Selectio
 
 func unmarshalNMultiHelloByNamesInput2ᚕᚖgithubᚗcomᚋ99designsᚋgqlgenᚋpluginᚋfederationᚋtestdataᚋusefunctionsyntaxforexecutioncontextᚋgeneratedᚋmodelᚐMultiHelloByNamesInput(ctx context.Context, ec *executionContext, v any) ([]*model.MultiHelloByNamesInput, error) {
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]*model.MultiHelloByNamesInput, len(vSlice))
 	for i := range vSlice {
@@ -8020,7 +8022,9 @@ func unmarshalNMultiHelloByNamesInput2ᚕᚖgithubᚗcomᚋ99designsᚋgqlgenᚋ
 
 func unmarshalNMultiHelloMultipleRequiresByNamesInput2ᚕᚖgithubᚗcomᚋ99designsᚋgqlgenᚋpluginᚋfederationᚋtestdataᚋusefunctionsyntaxforexecutioncontextᚋgeneratedᚋmodelᚐMultiHelloMultipleRequiresByNamesInput(ctx context.Context, ec *executionContext, v any) ([]*model.MultiHelloMultipleRequiresByNamesInput, error) {
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]*model.MultiHelloMultipleRequiresByNamesInput, len(vSlice))
 	for i := range vSlice {
@@ -8035,7 +8039,9 @@ func unmarshalNMultiHelloMultipleRequiresByNamesInput2ᚕᚖgithubᚗcomᚋ99des
 
 func unmarshalNMultiHelloRequiresByNamesInput2ᚕᚖgithubᚗcomᚋ99designsᚋgqlgenᚋpluginᚋfederationᚋtestdataᚋusefunctionsyntaxforexecutioncontextᚋgeneratedᚋmodelᚐMultiHelloRequiresByNamesInput(ctx context.Context, ec *executionContext, v any) ([]*model.MultiHelloRequiresByNamesInput, error) {
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]*model.MultiHelloRequiresByNamesInput, len(vSlice))
 	for i := range vSlice {
@@ -8050,7 +8056,9 @@ func unmarshalNMultiHelloRequiresByNamesInput2ᚕᚖgithubᚗcomᚋ99designsᚋg
 
 func unmarshalNMultiHelloWithErrorByNamesInput2ᚕᚖgithubᚗcomᚋ99designsᚋgqlgenᚋpluginᚋfederationᚋtestdataᚋusefunctionsyntaxforexecutioncontextᚋgeneratedᚋmodelᚐMultiHelloWithErrorByNamesInput(ctx context.Context, ec *executionContext, v any) ([]*model.MultiHelloWithErrorByNamesInput, error) {
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]*model.MultiHelloWithErrorByNamesInput, len(vSlice))
 	for i := range vSlice {
@@ -8065,7 +8073,9 @@ func unmarshalNMultiHelloWithErrorByNamesInput2ᚕᚖgithubᚗcomᚋ99designsᚋ
 
 func unmarshalNMultiPlanetRequiresNestedByNamesInput2ᚕᚖgithubᚗcomᚋ99designsᚋgqlgenᚋpluginᚋfederationᚋtestdataᚋusefunctionsyntaxforexecutioncontextᚋgeneratedᚋmodelᚐMultiPlanetRequiresNestedByNamesInput(ctx context.Context, ec *executionContext, v any) ([]*model.MultiPlanetRequiresNestedByNamesInput, error) {
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]*model.MultiPlanetRequiresNestedByNamesInput, len(vSlice))
 	for i := range vSlice {
@@ -8200,7 +8210,9 @@ func marshalN_Any2map(ctx context.Context, ec *executionContext, sel ast.Selecti
 
 func unmarshalN_Any2ᚕmapᚄ(ctx context.Context, ec *executionContext, v any) ([]map[string]any, error) {
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]map[string]any, len(vSlice))
 	for i := range vSlice {
@@ -8350,7 +8362,9 @@ func marshalN__DirectiveLocation2string(ctx context.Context, ec *executionContex
 
 func unmarshalN__DirectiveLocation2ᚕstringᚄ(ctx context.Context, ec *executionContext, v any) ([]string, error) {
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]string, len(vSlice))
 	for i := range vSlice {

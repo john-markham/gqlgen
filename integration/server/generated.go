@@ -4506,7 +4506,9 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 
 func (ec *executionContext) unmarshalNString2ᚕstringᚄ(ctx context.Context, v any) ([]string, error) {
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]string, len(vSlice))
 	for i := range vSlice {
@@ -4599,7 +4601,9 @@ func (ec *executionContext) marshalN__DirectiveLocation2string(ctx context.Conte
 
 func (ec *executionContext) unmarshalN__DirectiveLocation2ᚕstringᚄ(ctx context.Context, v any) ([]string, error) {
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]string, len(vSlice))
 	for i := range vSlice {
@@ -4800,7 +4804,9 @@ func (ec *executionContext) unmarshalOBoolean2ᚕboolᚄ(ctx context.Context, v 
 		return nil, nil
 	}
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]bool, len(vSlice))
 	for i := range vSlice {
@@ -4916,7 +4922,9 @@ func (ec *executionContext) unmarshalOErrorType2ᚕᚖgithubᚗcomᚋ99designs�
 		return nil, nil
 	}
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]*models.ErrorType, len(vSlice))
 	for i := range vSlice {
@@ -4991,7 +4999,9 @@ func (ec *executionContext) unmarshalOInt2ᚕᚖint(ctx context.Context, v any) 
 		return nil, nil
 	}
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]*int, len(vSlice))
 	for i := range vSlice {
@@ -5037,7 +5047,9 @@ func (ec *executionContext) unmarshalOListCoercion2ᚕᚖgithubᚗcomᚋ99design
 		return nil, nil
 	}
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]*models.ListCoercion, len(vSlice))
 	for i := range vSlice {
@@ -5071,7 +5083,9 @@ func (ec *executionContext) unmarshalOMap2ᚕmap(ctx context.Context, v any) ([]
 		return nil, nil
 	}
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]map[string]any, len(vSlice))
 	for i := range vSlice {
@@ -5111,7 +5125,9 @@ func (ec *executionContext) unmarshalOString2ᚕᚖstring(ctx context.Context, v
 		return nil, nil
 	}
 	var vSlice []any
-	vSlice = graphql.CoerceList(v)
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
 	var err error
 	res := make([]*string, len(vSlice))
 	for i := range vSlice {

@@ -18,7 +18,7 @@ import (
 // defined in https://github.com/APIs-guru/graphql-over-http#get
 type GET struct {
 	// Map of all headers that are added to graphql response. If not
-	// set, only one header: Content-Type: application/graphql-response+json will be set.
+	// set, only one header: Content-Type: application/json will be set.
 	ResponseHeaders map[string][]string
 }
 
@@ -39,14 +39,7 @@ func (h GET) Do(w http.ResponseWriter, r *http.Request, exec graphql.GraphExecut
 		writeJsonError(w, err.Error())
 		return
 	}
-	contentType := determineResponseContentType(h.ResponseHeaders, r)
-	responseHeaders := mergeHeaders(
-		map[string][]string{
-			"Content-Type": {contentType},
-		},
-		h.ResponseHeaders,
-	)
-	writeHeaders(w, responseHeaders)
+	writeHeaders(w, h.ResponseHeaders)
 
 	raw := &graphql.RawParams{
 		Query:         query.Get("query"),
@@ -75,11 +68,7 @@ func (h GET) Do(w http.ResponseWriter, r *http.Request, exec graphql.GraphExecut
 
 	opCtx, gqlError := exec.CreateOperationContext(r.Context(), raw)
 	if gqlError != nil {
-		if contentType == acceptApplicationGraphqlResponseJson {
-			w.WriteHeader(statusForGraphQLResponse(gqlError))
-		} else {
-			w.WriteHeader(statusFor(gqlError))
-		}
+		w.WriteHeader(statusFor(gqlError))
 		resp := exec.DispatchError(graphql.WithOperationContext(r.Context(), opCtx), gqlError)
 		writeJson(w, resp)
 		return
@@ -105,16 +94,6 @@ func statusFor(errs gqlerror.List) int {
 	switch errcode.GetErrorKind(errs) {
 	case errcode.KindProtocol:
 		return http.StatusUnprocessableEntity
-	default:
-		return http.StatusOK
-	}
-}
-
-func statusForGraphQLResponse(errs gqlerror.List) int {
-	// https://graphql.github.io/graphql-over-http/draft/#sec-application-graphql-response-json
-	switch errcode.GetErrorKind(errs) {
-	case errcode.KindProtocol:
-		return http.StatusBadRequest
 	default:
 		return http.StatusOK
 	}
