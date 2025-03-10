@@ -17,7 +17,6 @@ type OperationContext struct {
 	Variables     map[string]any
 	OperationName string
 	Doc           *ast.QueryDocument
-	Extensions    map[string]any
 	Headers       http.Header
 
 	Operation              *ast.OperationDefinition
