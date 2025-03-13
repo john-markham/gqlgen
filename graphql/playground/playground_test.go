@@ -72,7 +72,5 @@ func TestHandler_createsRelativeURLs(t *testing.T) {
 }
 
 func TestHandler_Integrity(t *testing.T) {
-	testResourceIntegrity(t, func(title, endpoint string) http.HandlerFunc {
-		return Handler(title, endpoint)
-	})
+	testResourceIntegrity(t, Handler)
 }
