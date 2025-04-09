@@ -118,6 +118,8 @@ func (t Websocket) Do(w http.ResponseWriter, r *http.Request, exec graphql.Graph
 		me = graphqltransportwsMessageExchanger{c: ws}
 	}
 
+	log.Printf("Making new WS connection")
+
 	conn := wsConnection{
 		active:              map[string]context.CancelFunc{},
 		conn:                ws,
@@ -504,6 +506,15 @@ func (c *wsConnection) close(closeCode int, message string) {
 		return
 	}
 	_ = c.conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(closeCode, message))
+	c.mu.Unlock()
+
+	if c.shutdownGracePeriod > 0 {
+		log.Printf("waiting for shutdown grace period before closing subscriptions: %s", c.shutdownGracePeriod)
+		time.Sleep(c.shutdownGracePeriod)
+	}
+
+	c.mu.Lock()
+	log.Printf("active connections on connection close: %v", len(c.active))
 	for _, closer := range c.active {
 		closer()
 	}
@@ -511,9 +522,13 @@ func (c *wsConnection) close(closeCode int, message string) {
 	c.mu.Unlock()
 
 	if c.shutdownGracePeriod > 0 {
+		log.Printf("waiting for shutdown grace period after closing subscriptions: %s", c.shutdownGracePeriod)
 		time.Sleep(c.shutdownGracePeriod)
 	}
+
+	log.Printf("calling close on connection")
 	_ = c.conn.Close()
+	log.Printf("called close on connection")
 
 	if c.CloseFunc != nil {
 		c.CloseFunc(c.ctx, closeCode)
