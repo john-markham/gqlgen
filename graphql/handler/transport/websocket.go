@@ -500,35 +500,40 @@ func (c *wsConnection) sendConnectionError(format string, args ...any) {
 }
 
 func (c *wsConnection) close(closeCode int, message string) {
+	connID := fmt.Sprintf("[wsconnection:%p]", c)
+
 	c.mu.Lock()
 	if c.closed {
+		log.Printf("%s already closed", connID)
 		c.mu.Unlock()
 		return
 	}
 	_ = c.conn.WriteMessage(websocket.CloseMessage, websocket.FormatCloseMessage(closeCode, message))
+	log.Printf("%s wrote close message: %d %s", connID, closeCode, message)
 	c.mu.Unlock()
 
 	if c.shutdownGracePeriod > 0 {
-		log.Printf("waiting for shutdown grace period before closing subscriptions: %s", c.shutdownGracePeriod)
+		log.Printf("%s waiting for shutdown grace period before closing subscriptions: %s", connID, c.shutdownGracePeriod)
 		time.Sleep(c.shutdownGracePeriod)
 	}
 
 	c.mu.Lock()
-	log.Printf("active connections on connection close: %v", len(c.active))
-	for _, closer := range c.active {
+	log.Printf("%s active connections on connection close: %v", connID, len(c.active))
+	for id, closer := range c.active {
+		log.Printf("%s closing subscription %s", connID, id)
 		closer()
 	}
 	c.closed = true
 	c.mu.Unlock()
 
 	if c.shutdownGracePeriod > 0 {
-		log.Printf("waiting for shutdown grace period after closing subscriptions: %s", c.shutdownGracePeriod)
+		log.Printf("%s waiting for shutdown grace period after closing subscriptions: %s", connID, c.shutdownGracePeriod)
 		time.Sleep(c.shutdownGracePeriod)
 	}
 
-	log.Printf("calling close on connection")
+	log.Printf("%s calling close on connection", connID)
 	_ = c.conn.Close()
-	log.Printf("called close on connection")
+	log.Printf("%s called close on connection", connID)
 
 	if c.CloseFunc != nil {
 		c.CloseFunc(c.ctx, closeCode)
